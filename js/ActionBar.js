@@ -1,15 +1,20 @@
-import Bookmarks from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Bookmarks.js'
-import BasemapGallery from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/BasemapGallery.js'
-import LayerList from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/LayerList.js'
-import Legend from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Legend.js'
-import Print from 'https://js.arcgis.com/4.22/@arcgis/core/widgets/Print.js'
-import Fullscreen from "https://js.arcgis.com/4.22/@arcgis/core/widgets/Fullscreen.js"
+import Bookmarks from 'https://js.arcgis.com/4.24/@arcgis/core/widgets/Bookmarks.js'
+import BasemapGallery from 'https://js.arcgis.com/4.24/@arcgis/core/widgets/BasemapGallery.js'
+import LayerList from 'https://js.arcgis.com/4.24/@arcgis/core/widgets/LayerList.js'
+import Legend from 'https://js.arcgis.com/4.24/@arcgis/core/widgets/Legend.js'
+import Print from 'https://js.arcgis.com/4.24/@arcgis/core/widgets/Print.js'
+import Fullscreen from "https://js.arcgis.com/4.24/@arcgis/core/widgets/Fullscreen.js"
+import Editor from "https://js.arcgis.com/4.24/@arcgis/core/widgets/Editor.js"
 
 export default class ActionBar {
   constructor(view, defaultActiveWidgetId = null) {
     this.view = view
     this.activeWidget = defaultActiveWidgetId
     this.widgets = {
+      editor: new Editor({
+        view, 
+        visible: false
+      }),
       basemaps: new BasemapGallery({
         view,
         container: "basemaps-container"
@@ -37,6 +42,7 @@ export default class ActionBar {
     }
     view.ui.move("zoom", "bottom-right")
     view.ui.add(this.widgets.fullscreen, "top-right")
+    view.ui.add(this.widgets.editor, "top-right")
     document.querySelector("calcite-action-bar").addEventListener("click", this.handleActionBarClick)
   }
 

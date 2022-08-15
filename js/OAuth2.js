@@ -1,9 +1,9 @@
  
-import Portal from 'https://js.arcgis.com/4.23/@arcgis/core/portal/Portal.js'
-import OAuthInfo from 'https://js.arcgis.com/4.23/@arcgis/core/identity/OAuthInfo.js'
-import esriId from 'https://js.arcgis.com/4.23/@arcgis/core/identity/IdentityManager.js'
+import Portal from 'https://js.arcgis.com/4.24/@arcgis/core/portal/Portal.js'
+import OAuthInfo from 'https://js.arcgis.com/4.24/@arcgis/core/identity/OAuthInfo.js'
+import esriId from 'https://js.arcgis.com/4.24/@arcgis/core/identity/IdentityManager.js'
 
-const appId = 'xG2kkVesAXGRx5t1' // AppId for arcgis-calcite-template (Dev folder at geodata.maps.arcgis.com) 
+const appId = '6wNss9t4IdSecjz8' // AppId for arcgis-calcite-template (Dev folder at geodata.maps.arcgis.com) 
 
 const info = new OAuthInfo({
   appId,
