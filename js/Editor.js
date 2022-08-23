@@ -54,3 +54,7 @@ const elements = [{
   label: "Tiltaksområdetype"
  }
 ]
+
+export const setDefaultAttributeValue = (layer, field, value) => {
+  layer.templates[0].prototype.attributes[field] = value
+}

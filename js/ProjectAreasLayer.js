@@ -67,10 +67,3 @@ const copyFeature = (view, featureLayer) => {
   })
 }
 
-const selectedProject = async () => {
-  let selectedItems = await document.getElementById('projects-list').getSelectedItems()
-  selectedItems = [...selectedItems]
-
-  return selectedItems[0][1].attributes[1].nodeValue
-}
-

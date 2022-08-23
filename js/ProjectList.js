@@ -1,21 +1,34 @@
 import { createElement } from './utils/Element.js'
 import * as Editor from './Editor.js'
 
-export const addProjects = (id, layer, features, view, editor) => {   
-  let list = document.querySelector(`#${id}-list`)
+export var projects = []
 
-  features.forEach(feature => {
-    addProject(id, layer, feature, list, view, editor)
+
+export const create = async (projectsLayer, projectAreasLayer, view) => {   
+  let projects = await getProjects(projectsLayer)
+  projects.features.forEach(feature => {
+    addProject(projectAreasLayer, feature, view)
+  })
+}
+
+const getProjects = (projectsLayer) => {
+  return projectsLayer.queryFeatures({
+    where: '1=1',
+    returnGeometry: true,
+    outFields: ["*"],
   })
 }
   
-const addProject = (id, layer, feature, list, view, editor) => {
-  let action = createAction(id,'layer-zoom-to')
+const addProject = (layer, feature, view) => {
+  let list = document.querySelector('#projects-list')
+
+  let action = createAction('projects','layer-zoom-to')
   action.addEventListener('click', event => view.goTo(feature.geometry))
 
-  let item = createListItem(id, feature.attributes.Prosjektnummer, action)
+  let item = createListItem('projects', feature.attributes.Prosjektnummer, action)
   item.addEventListener('click', event => {
-    Editor.config(editor, view, layer, feature.attributes.Prosjektnummer)
+    
+    Editor.setDefaultAttributeValue(layer, 'Prosjektnummer', feature.attributes.Prosjektnummer)
     
     layer.queryFeatures({
       where: `Prosjektnummer='${feature.attributes.Prosjektnummer}'`,
@@ -66,4 +79,15 @@ const createListItem = (id, label, action, descr) => {
     },
     action
   )
+}
+
+export const selectedProjectItem = async () => {
+  let selectedItems = await document.getElementById('projects-list').getSelectedItems()
+  selectedItems = [...selectedItems]
+  return selectedItems[0][1]
+}
+
+export const selectedProject = async () => {
+  let item = await selectedProjectItem()
+  return item.attributes[1].nodeValue
 }

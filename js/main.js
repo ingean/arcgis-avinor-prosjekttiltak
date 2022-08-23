@@ -34,20 +34,18 @@ const actionBar = new ActionBar(view, 'projects')
 const projectsLayer = ProjectsLayer.config()
 const projectAreasLayer = ProjectAreasLayer.config(view)
 map.addMany([projectsLayer, projectAreasLayer])
-
-projectsLayer.queryFeatures({
-  where: '1=1',
-  returnGeometry: true,
-  outFields: ["*"],
-})
-.then(featureSet => {
-  ProjectsList.addProjects('projects', projectAreasLayer, featureSet.features, view, actionBar.widgets.editor)
-})
+ProjectsList.create(projectsLayer, projectAreasLayer, view)
 
 document.getElementById('add-area-btn')
-.addEventListener('click', event => {
+.addEventListener('click', async event => {
   let widget = actionBar.widgets.editor
   widget.visible = !widget.visible
+})
+
+let form = actionBar.widgets.editor.viewModel.featureFormViewModel
+form.on('submit', async () => {
+  let projectItem = await ProjectsList.selectedProjectItem()
+  projectItem.click()
 })
 
 const title = 'Prosjekt: GIS-123'
